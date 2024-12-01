@@ -20,7 +20,7 @@ android {
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
-	compile project(":/storage/emulated/0/AppProjects/Libs/AppDevFramework_devs/app/");
+	compile ('com.github.AIDEProjects:AppDevFramework:0.4.1')
 	// kotlin库如果类冲突，取消下一行注释
 	// api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0"
 }

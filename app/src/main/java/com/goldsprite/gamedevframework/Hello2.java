@@ -1,11 +1,11 @@
 package com.goldsprite.gamedevframework;
+import com.goldsprite.appdevframework.log.*;
 
-import Hello;
 
 public class Hello2
 {
 	public static void world(){
-		String str = Hello.world();
-		System.out.println(str);
+		String str = "Hello world.";
+		AppLog.toast(str);
 	}
 }
