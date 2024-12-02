@@ -7,7 +7,8 @@
 1. 统一GLGameView的坐标系：使用左下到右上坐标系，大小为0~width,0~height
 
 # 更新
-## 0.1.2
+## 0.1.2: 
+### 游戏视图基类GLGameView与视口操作与基本几何图形
 1. 设计GLGameView以作为GL游戏视图：并绘制所有Geometry演示
 - - 通过抽象接口create()初始化，render()帧绘制
 2. 创建GestureHandler用于操作双指移动缩放视图视口属性
