@@ -16,7 +16,7 @@ public class ShapeBatch
 	public StrokeCircle StrokeCircle() { return strokeCircle = strokeCircle == null ?new StrokeCircle() : strokeCircle; }
 	private Circle circle;
 	public Circle Circle() { return circle = circle == null ?new Circle() : circle; }
-	
+
 	private StrokeRectangle strokeRectangle;
 	public StrokeRectangle StrokeRectangle() { return strokeRectangle = strokeRectangle == null ?new StrokeRectangle() : strokeRectangle; }
 	private Rectangle rectangle;
@@ -34,47 +34,61 @@ public class ShapeBatch
 		return currentColor;
     }
 
-    public void drawStrokeRect(float cx, float cy, float width, float height, float lineWidth) {
+    public void drawStrokeRect(float x, float y, float width, float height, float lineWidth, Align align) {
+		float[] alignRec = toAlignRec(align, x, y, width, height);
 		StrokeRectangle().draw(
 			camera.VpMatrix(), 
-			toNdcX(cx), 
-			toNdcY(cy), 
-			toNdcX(width), 
-			toNdcY(height), 
+			alignRec[0], alignRec[1], 
+			width, height, 
 			lineWidth, 
 			currentColor);
 	}
-    public void drawRect(float cx, float cy, float width, float height) {
+    public void drawRect(float x, float y, float width, float height, Align align) {
+		float[] alignRec = toAlignRec(align, x, y, width, height);
 		Rectangle().draw(
 			camera.VpMatrix(), 
-			toNdcX(cx), 
-			toNdcY(cy), 
-			toNdcX(width), 
-			toNdcY(height), 
+			alignRec[0], alignRec[1], 
+			width, height, 
 			currentColor);
 	}
 
-    public void drawStrokeCircle(float cx, float cy, float radius, float lineWidth) {
+    public void drawStrokeCircle(float x, float y, float radius, float lineWidth, Align align) {
+		float diam = radius * 2;
+		float[] alignRec = toAlignRec(align, x, y, diam, diam);
 		StrokeCircle().draw(
 			camera.VpMatrix(), 
-			toNdcX(cx), 
-			toNdcY(cy), 
-			toNdcX(radius), 
+			alignRec[0], alignRec[1], 
+			radius, 
 			lineWidth, 
 			currentColor);
 	}
 
-    public void drawCircle(float cx, float cy, float radius) {
+    public void drawCircle(float x, float y, float radius, Align align) {
+		float diam = radius * 2;
+		float[] alignRec = toAlignRec(align, x, y, diam, diam);
 		Circle().draw(
 			camera.VpMatrix(), 
-			toNdcX(cx), 
-			toNdcY(cy), 
-			toNdcX(radius), 
+			alignRec[0], alignRec[1], 
+			radius, 
 			currentColor);
 	}
 
 
+	float[] tempAlginRec = new float[2];
+	public float[] toAlignRec(Align align, float x, float y, float width, float height) {
+		if (Align.LEFTDOWN.equals(align)) {
+			tempAlginRec[0] = x + width / 1f;
+			tempAlginRec[1] = y + height / 1f;
+		}
+		else if (Align.CENTER.equals(align)) {
+			tempAlginRec[0] = x;
+			tempAlginRec[1] = y;
+		}
+		return tempAlginRec;
+	}
+
 	public float toNdcX(float width) {
+		if (true) return width;
 		//归一化
 		width /= camera.getViewportSize().x;
 		//映射到-1~+1
@@ -83,6 +97,7 @@ public class ShapeBatch
 		return width;
 	}
 	public float toNdcY(float height) {
+		if (true) return height;
 		//归一化
 		height /= camera.getViewportSize().y;
 		//映射到-1~+1

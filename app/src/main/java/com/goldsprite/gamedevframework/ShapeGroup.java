@@ -7,14 +7,16 @@ public class ShapeGroup {
     private float width;
     private float height;
     private float scale;
+	public float circleSize = 1f * 20;
 
     // 构造函数
-    public ShapeGroup(float centerX, float centerY, float width, float height, float scale) {
+    public ShapeGroup(float centerX, float centerY, float width, float height, float circleSize, float scale) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.width = width;
         this.height = height;
         this.scale = scale;
+		this.circleSize = circleSize;
     }
 
     // 设置位移
@@ -47,7 +49,6 @@ public class ShapeGroup {
 
 		// 绘制中心圆，根据参数决定是否应用缩放
 		float circleScale = circleFixedSize ? 1.0f : scale;
-		float circleSize = 0.01f;
 		circle.draw(vpMatrix, centerX, centerY, circleScale*circleSize, lineWidth * circleScale, circleColor);
 	}
 	

@@ -1,12 +1,15 @@
 [![](https://jitpack.io/v/AIDEProjects/GameDevFramework.svg)](https://jitpack.io/#AIDEProjects/GameDevFramework)
 
-# GameDevFramework 0.1.4
+# GameDevFramework 0.1.5
 简易AndroidGame开发库框架，使用opengles2.0
 
 # 待办: 
-1. 统一GLGameView的坐标系：使用左下到右上坐标系，大小为0~width,0~height
+1. 更新手势处理相关
 
 # 更新
+## 0.1.5: 将视口NDC转为左下像素坐标系
+1. 统一GLGameView的坐标系：使用左下到右上坐标系，大小为0~width,0~height
+
 ## 0.1.4: 封装矩阵变换到renderer.camera
 
 ## 0.1.3: 更新appdevf版本到0.6.1-alpha

@@ -54,6 +54,7 @@ public class GestureHandler {
 				float dx = centerX - lastCenterX;
 				float dy = centerY - lastCenterY;
 				float vel = Math.min(viewWidth, viewHeight) / 1f;
+				vel = 1;
 				listener.onDoublePointerMove(dx / vel, -dy / vel);
 			}
 

@@ -16,7 +16,7 @@ public class Rectangle
 
 	public Rectangle() {
 		//vertices转-1~+1
-		for (int i=0;i < vertices.length;i++) vertices[i] *= 2;
+		//for (int i=0;i < vertices.length;i++) vertices[i] *= 2;
 		mProgram = ShaderUtils.createProgram();
 	}
 

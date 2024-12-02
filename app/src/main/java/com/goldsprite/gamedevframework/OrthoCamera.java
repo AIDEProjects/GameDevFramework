@@ -1,10 +1,11 @@
 package com.goldsprite.gamedevframework;
 import android.opengl.*;
 import com.goldsprite.appdevframework.math.*;
+import com.goldsprite.appdevframework.log.*;
 
 public class OrthoCamera
 {
-	
+
 	private final float[] projectionMatrix = new float[16];
 	private final float[] viewMatrix = new float[16];
 	private final float[] vpMatrix = new float[16];
@@ -23,25 +24,27 @@ public class OrthoCamera
 		sclTranslateOffset.set(translate.clone().scl(scale * 2.5f));
 		return sclTranslateOffset;
 	}
-	
 
-	public OrthoCamera(){}
-	public OrthoCamera(float width, float height){ setViewportSize(width, height); }
 
-	
+	public OrthoCamera() {}
+	public OrthoCamera(float width, float height) {
+		setViewportSize(width, height); 
+		Log.logfT(GLGameView.TAG.LifeCycle, "OrthoCamera相机视口已初始化, viewportSize: %s", getViewportSize());
+	}
+
+
 	public void updateMatrix() {
 		Matrix.setIdentityM(viewMatrix, 0);
 		Matrix.translateM(viewMatrix, 0, translate.x + SclTranslate().x, translate.y + SclTranslate().y, 0);
 		Matrix.scaleM(viewMatrix, 0, scale, scale, 1);
 		Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 	}
-	
+
 	public void updateViewport(int width, int height) {
 		setViewportSize(width, width);
-		float ratio = (float) width / height;
-		Matrix.orthoM(projectionMatrix, 0, -ratio, ratio, -1, 1, -1, 1);
+		Matrix.orthoM(projectionMatrix, 0, 0, width, 0, height, -1, 1);
 	}
-	
+
 
 	public void translate(float dx, float dy) {
 		float scl = Math.max(1, scale);
@@ -51,5 +54,5 @@ public class OrthoCamera
 	public void scale(float factor) {
 		scale *= factor;
 	}
-	
+
 }
