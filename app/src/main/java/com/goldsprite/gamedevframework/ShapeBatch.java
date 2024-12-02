@@ -9,6 +9,7 @@ public class ShapeBatch
 {
     private final GLGameView glGameView;
     private final GLGameView.GLRenderer renderer;
+    private final OrthoCamera camera;
     private float[] currentColor = Color.black.clone(); // 默认颜色为黑色
 
 	private StrokeCircle strokeCircle;
@@ -25,6 +26,7 @@ public class ShapeBatch
     public ShapeBatch(GLGameView glGameView) {
         this.glGameView = glGameView;
 		this.renderer = glGameView.Renderer();
+		this.camera = renderer.Camera();
     }
 
     public float[] setColor(float[] color) {
@@ -34,7 +36,7 @@ public class ShapeBatch
 
     public void drawStrokeRect(float cx, float cy, float width, float height, float lineWidth) {
 		StrokeRectangle().draw(
-			renderer.VpMatrix(), 
+			camera.VpMatrix(), 
 			toNdcX(cx), 
 			toNdcY(cy), 
 			toNdcX(width), 
@@ -44,7 +46,7 @@ public class ShapeBatch
 	}
     public void drawRect(float cx, float cy, float width, float height) {
 		Rectangle().draw(
-			renderer.VpMatrix(), 
+			camera.VpMatrix(), 
 			toNdcX(cx), 
 			toNdcY(cy), 
 			toNdcX(width), 
@@ -54,7 +56,7 @@ public class ShapeBatch
 
     public void drawStrokeCircle(float cx, float cy, float radius, float lineWidth) {
 		StrokeCircle().draw(
-			renderer.VpMatrix(), 
+			camera.VpMatrix(), 
 			toNdcX(cx), 
 			toNdcY(cy), 
 			toNdcX(radius), 
@@ -64,7 +66,7 @@ public class ShapeBatch
 
     public void drawCircle(float cx, float cy, float radius) {
 		Circle().draw(
-			renderer.VpMatrix(), 
+			camera.VpMatrix(), 
 			toNdcX(cx), 
 			toNdcY(cy), 
 			toNdcX(radius), 
@@ -74,7 +76,7 @@ public class ShapeBatch
 
 	public float toNdcX(float width) {
 		//归一化
-		width /= renderer.getViewportSize().x;
+		width /= camera.getViewportSize().x;
 		//映射到-1~+1
 		width *= 2;
 		width -= width / 2;
@@ -82,7 +84,7 @@ public class ShapeBatch
 	}
 	public float toNdcY(float height) {
 		//归一化
-		height /= renderer.getViewportSize().y;
+		height /= camera.getViewportSize().y;
 		//映射到-1~+1
 		height *= 2;
 		height -= height / 2;
