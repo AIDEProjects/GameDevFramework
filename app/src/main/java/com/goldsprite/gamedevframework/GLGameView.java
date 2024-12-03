@@ -18,7 +18,7 @@ public abstract class GLGameView extends GLSurfaceView
 		LifeCycle
 	}
 	
-    private GestureHandler gestureHandler;
+	private GestureHandler gestureHandler;
 
 	private GLRenderer renderer;
 	public GLRenderer Renderer() { return renderer; }
@@ -75,11 +75,11 @@ public abstract class GLGameView extends GLSurfaceView
 		gestureHandler = new GestureHandler(listener);
 	}
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        gestureHandler.handleTouchEvent(event, getWidth(), getHeight());
-        return true;
-    }
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		gestureHandler.handleTouchEvent(event, getWidth(), getHeight());
+		return true;
+	}
 
 
 	public class GLRenderer implements GLSurfaceView.Renderer

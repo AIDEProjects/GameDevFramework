@@ -4,18 +4,34 @@ group 'com.github.AIDEProjects'
 
 android {
 	compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+	buildToolsVersion "30.0.3"
 	
 	defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "0.1.0"
-    }
+		minSdkVersion 21
+		targetSdkVersion 28
+		versionCode 1
+		versionName "0.1.0"
+	}
 	
 	lintOptions {
-        abortOnError false
-    }
+		abortOnError false
+	}
+	
+	// 配置 JavaDoc 任务
+	task javadoc(type: Javadoc) {
+		source = android.sourceSets.main.java.srcDirs // 指向主源代码目录
+		classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // 包含依赖库
+		options.encoding = 'UTF-8' // 设置编码
+
+		// 包含生成的文档标题
+		options.title = "My Android Library API Documentation"
+
+		// 设置生成文档的输出目录
+		options.destinationDir = file("${buildDir}/docs/javadoc")
+
+		// 可选：添加 JavaDoc 选项
+		options.addStringOption('Xdoclint:none', '-quiet') // 关闭文档检查
+	}
 }
 
 dependencies {

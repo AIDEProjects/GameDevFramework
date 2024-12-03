@@ -7,10 +7,10 @@ import com.goldsprite.appdevframework.log.*;
 
 public class ShapeBatch
 {
-    private final GLGameView glGameView;
-    private final GLGameView.GLRenderer renderer;
-    private final OrthoCamera camera;
-    private float[] currentColor = Color.black.clone(); // 默认颜色为黑色
+	private final GLGameView glGameView;
+	private final GLGameView.GLRenderer renderer;
+	private final OrthoCamera camera;
+	private float[] currentColor = Color.black.clone(); // 默认颜色为黑色
 
 	private StrokeCircle strokeCircle;
 	public StrokeCircle StrokeCircle() { return strokeCircle = strokeCircle == null ?new StrokeCircle() : strokeCircle; }
@@ -23,18 +23,18 @@ public class ShapeBatch
 	public Rectangle Rectangle() { return rectangle = rectangle == null ?new Rectangle() : rectangle; }
 
 
-    public ShapeBatch(GLGameView glGameView) {
-        this.glGameView = glGameView;
+	public ShapeBatch(GLGameView glGameView) {
+		this.glGameView = glGameView;
 		this.renderer = glGameView.Renderer();
 		this.camera = renderer.Camera();
-    }
+	}
 
-    public float[] setColor(float[] color) {
-        System.arraycopy(color, 0, currentColor, 0, 4);
+	public float[] setColor(float[] color) {
+		System.arraycopy(color, 0, currentColor, 0, 4);
 		return currentColor;
-    }
+	}
 
-    public void drawStrokeRect(float x, float y, float width, float height, float lineWidth, Align align) {
+	public void drawStrokeRect(float x, float y, float width, float height, float lineWidth, Align align) {
 		float[] alignRec = toAlignRec(align, x, y, width, height);
 		StrokeRectangle().draw(
 			camera.VpMatrix(), 
@@ -43,7 +43,7 @@ public class ShapeBatch
 			lineWidth, 
 			currentColor);
 	}
-    public void drawRect(float x, float y, float width, float height, Align align) {
+	public void drawRect(float x, float y, float width, float height, Align align) {
 		float[] alignRec = toAlignRec(align, x, y, width, height);
 		Rectangle().draw(
 			camera.VpMatrix(), 
@@ -52,7 +52,7 @@ public class ShapeBatch
 			currentColor);
 	}
 
-    public void drawStrokeCircle(float x, float y, float radius, float lineWidth, Align align) {
+	public void drawStrokeCircle(float x, float y, float radius, float lineWidth, Align align) {
 		float diam = radius * 2;
 		float[] alignRec = toAlignRec(align, x, y, diam, diam);
 		StrokeCircle().draw(
@@ -63,7 +63,7 @@ public class ShapeBatch
 			currentColor);
 	}
 
-    public void drawCircle(float x, float y, float radius, Align align) {
+	public void drawCircle(float x, float y, float radius, Align align) {
 		float diam = radius * 2;
 		float[] alignRec = toAlignRec(align, x, y, diam, diam);
 		Circle().draw(

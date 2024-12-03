@@ -28,39 +28,39 @@ public class Circle
 		for (int angle = 0; angle <= 360; angle += SEGMENT_STEP) {
 			lowPolyCoords[index++] = (float) Math.cos(Math.toRadians(angle));  // x
 			lowPolyCoords[index++] = (float) Math.sin(Math.toRadians(angle));  // y
-			lowPolyCoords[index++] = 0f;                                       // z
+			lowPolyCoords[index++] = 0f;									   // z
 		}
 
 		// 初始化顶点缓冲区
 		vertexBuffer = BufferUtils.create(lowPolyCoords);
 
-        program = ShaderUtils.createProgram();
-    }
+		program = ShaderUtils.createProgram();
+	}
 
-    public void draw(float[] vpMatrix, float cx, float cy, float radius, float[] color) {
-        GLES20.glUseProgram(program);
+	public void draw(float[] vpMatrix, float cx, float cy, float radius, float[] color) {
+		GLES20.glUseProgram(program);
 
-        int positionHandle = GLES20.glGetAttribLocation(program, "a_Position");
-        int matrixHandle = GLES20.glGetUniformLocation(program, "u_Matrix");
-        int colorHandle = GLES20.glGetUniformLocation(program, "u_Color");
+		int positionHandle = GLES20.glGetAttribLocation(program, "a_Position");
+		int matrixHandle = GLES20.glGetUniformLocation(program, "u_Matrix");
+		int colorHandle = GLES20.glGetUniformLocation(program, "u_Color");
 
 		vertexBuffer.position(0);
 		GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 12, vertexBuffer);
-        GLES20.glEnableVertexAttribArray(positionHandle);
+		GLES20.glEnableVertexAttribArray(positionHandle);
 
-        float[] modelMatrix = new float[16];
-        Matrix.setIdentityM(modelMatrix, 0);
-        Matrix.translateM(modelMatrix, 0, cx, cy, 0);
-        Matrix.scaleM(modelMatrix, 0, radius, radius, 1);
-        Matrix.multiplyMM(modelMatrix, 0, vpMatrix, 0, modelMatrix, 0);
+		float[] modelMatrix = new float[16];
+		Matrix.setIdentityM(modelMatrix, 0);
+		Matrix.translateM(modelMatrix, 0, cx, cy, 0);
+		Matrix.scaleM(modelMatrix, 0, radius, radius, 1);
+		Matrix.multiplyMM(modelMatrix, 0, vpMatrix, 0, modelMatrix, 0);
 
-        GLES20.glUniformMatrix4fv(matrixHandle, 1, false, modelMatrix, 0);
-        GLES20.glUniform4fv(colorHandle, 1, color, 0);
+		GLES20.glUniformMatrix4fv(matrixHandle, 1, false, modelMatrix, 0);
+		GLES20.glUniform4fv(colorHandle, 1, color, 0);
 
 		int maxVertices = (int) (currentAngle / SEGMENT_STEP)+3; // 当前绘制的顶点数
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, maxVertices);
 		GLES20.glDisableVertexAttribArray(positionHandle);
 		
-    }
+	}
 
 }
