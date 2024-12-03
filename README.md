@@ -7,8 +7,12 @@
 1. 更新手势处理相关
 
 # 更新
-## 0.1.5: 将视口NDC转为左下像素坐标系
+## 0.1.5: 转换视口到像素坐标系并同步Shape绘制相关
 1. 统一GLGameView的坐标系：使用左下到右上坐标系，大小为0~width,0~height
+- - 调整Shape顶点组坐标范围回-0.5~0.5
+- - 调整Shape.draw..的坐标范围，增加toAlignRec方法获取对齐方式对应坐标
+2. 增加生命周期日志用于检查程序执行顺序
+- - 使用Log.banTags.put(GLGameView.TAG.LifeCycle, boo);启用/禁用
 
 ## 0.1.4: 封装矩阵变换到renderer.camera
 
