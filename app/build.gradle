@@ -32,6 +32,7 @@ android {
 		// 可选：添加 JavaDoc 选项
 		options.addStringOption('Xdoclint:none', '-quiet') // 关闭文档检查
 	}
+	build.dependsOn javadoc
 }
 
 dependencies {

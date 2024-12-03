@@ -18,6 +18,11 @@ public abstract class GLGameView extends GLSurfaceView
 		LifeCycle
 	}
 	
+	public static class CFG {
+		public boolean enableViewportGesture = false;
+	}
+	private CFG cfg;
+	
 	private GestureHandler gestureHandler;
 
 	private GLRenderer renderer;
@@ -27,18 +32,19 @@ public abstract class GLGameView extends GLSurfaceView
 	public abstract void render();
 
 
-	public GLGameView(Context ctx) {
+	public GLGameView(Context ctx, CFG cfg) {
 		super(ctx);
-		init(ctx);
-	}
-	public GLGameView(Context ctx, AttributeSet attrs) {
-		super(ctx, attrs);
-		init(ctx);
+		init(ctx, cfg);
 	}
 
-	private void init(Context ctx) {
+	private void init(Context ctx, CFG cfg) {
 		setEGLContextClientVersion(2);
 
+		if(cfg == null){
+			cfg = new CFG();
+		}
+		this.cfg = cfg;
+		
 		// 初始化渲染器
 		renderer = new GLRenderer();
 		setRenderer(renderer);
@@ -55,20 +61,12 @@ public abstract class GLGameView extends GLSurfaceView
 		// 初始化手势管理
 		GestureHandler.GestureListener listener = new GestureHandler.GestureListener() {
 			@Override
-			public void onSinglePointerMove(float dx, float dy) {
-				//renderer.onMoveCamera(dx, dy);
-				//renderer.translate(dx, dy);
-			}
-
-			@Override
 			public void onDoublePointerMove(float dx, float dy) {
-				//renderer.onMoveCamera(dx, dy);
 				renderer.Camera().translate(dx, dy);
 			}
 
 			@Override
 			public void onScale(float scale) {
-				//renderer.onScaleCamera(scale);
 				renderer.Camera().scale(scale);
 			}
 		};
@@ -77,8 +75,9 @@ public abstract class GLGameView extends GLSurfaceView
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		gestureHandler.handleTouchEvent(event, getWidth(), getHeight());
-		return true;
+		if(cfg.enableViewportGesture) 
+			return gestureHandler.handleTouchEvent(event, getWidth(), getHeight());
+		return false;
 	}
 
 

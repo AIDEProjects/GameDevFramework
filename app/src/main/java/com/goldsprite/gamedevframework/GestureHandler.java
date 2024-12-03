@@ -2,47 +2,44 @@ package com.goldsprite.gamedevframework;
 
 import android.view.*;
 
-public class GestureHandler {
-	private float lastCenterX = 0;
-	private float lastCenterY = 0;
-	private float lastDistance = 0;
+public class GestureHandler
+{
+    private float lastCenterX = 0;
+    private float lastCenterY = 0;
+    private float lastDistance = 0;
 
-	private final GestureListener listener;
+    private final GestureListener listener;
 
-	public interface GestureListener {
-		void onSinglePointerMove(float dx, float dy);
-		void onDoublePointerMove(float dx, float dy);
-		void onScale(float scale);
-	}
+    public interface GestureListener
+	{
+        void onDoublePointerMove(float dx, float dy);
+        void onScale(float scale);
+    }
 
-	public GestureHandler(GestureListener listener) {
-		this.listener = listener;
-	}
+    public GestureHandler(GestureListener listener) {
+        this.listener = listener;
+    }
 
-	public void handleTouchEvent(MotionEvent event, int viewWidth, int viewHeight) {
-		int pointerCount = event.getPointerCount();
-		switch (pointerCount) {
-			case 2: // 双指拖动与缩放
-				handleDoublePointer(event, viewWidth, viewHeight);
-				break;
+    public boolean handleTouchEvent(MotionEvent event, int viewWidth, int viewHeight) {
+        int pointerCount = event.getPointerCount();
+        switch (pointerCount) {
+            case 2: // 双指拖动与缩放
+                return handleDoublePointer(event, viewWidth, viewHeight);
+        }
+		return false;
+    }
 
-			default:
-				reset();
-				break;
-		}
-	}
 
-	
 
-	private void handleDoublePointer(MotionEvent ev, int viewWidth, int viewHeight) {
-		if(ev.getPointerCount() < 2) return;
-		
+	private boolean handleDoublePointer(MotionEvent ev, int viewWidth, int viewHeight) {
+		if (ev.getPointerCount() < 2) return false;
+
 		// 计算双指中心点
 		float centerX = (ev.getX(0) + ev.getX(1)) / 2;
 		float centerY = (ev.getY(0) + ev.getY(1)) / 2;
 		// 计算双指距离
 		float distance = calculateDistance(ev);
-		
+
 		if (ev.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
 			lastCenterX = centerX;lastCenterY = centerY;
 			lastDistance = distance;
@@ -68,21 +65,15 @@ public class GestureHandler {
 			lastCenterX = centerX;
 			lastCenterY = centerY;
 			lastDistance = distance;
-		} else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_POINTER_UP) {
-			reset();
 		}
+		
+		return true;
 	}
 
-	private float calculateDistance(MotionEvent event) {
-		float dx = event.getX(0) - event.getX(1);
-		float dy = event.getY(0) - event.getY(1);
-		return (float) Math.sqrt(dx * dx + dy * dy);
-	}
-
-	private void reset() {
-		lastCenterX = 0;
-		lastCenterY = 0;
-		lastDistance = 0;
-	}
+    private float calculateDistance(MotionEvent event) {
+        float dx = event.getX(0) - event.getX(1);
+        float dy = event.getY(0) - event.getY(1);
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
 }
 
