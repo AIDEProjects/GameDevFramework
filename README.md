@@ -3,6 +3,22 @@
 # GameDevFramework 0.1.5-alpha
 简易AndroidGame开发库框架，使用opengles2.0
 
+# 内容: 
+1. GLGameView: 游戏视图基类
+	- 在create()初始化
+	- 在render()帧绘制
+1. ShapeBatch: 几何图形绘制类
+	- drawRect()绘制矩形
+	- drawStrokeRect()绘制空心矩形
+	- drawCircle()绘制圆
+	- drawStrokeCircle()绘制空心圆
+	- drawLine()绘制线
+1. OrthoCamera: 相机类，操作视图矩阵
+	- VpMatrix()获取当前视图投影矩阵
+	- getViewportSize()获取视图宽高
+	- translate()相机位移
+	- scale()相机拉伸
+
 # 待办: 
 1. 更新手势处理相关
 

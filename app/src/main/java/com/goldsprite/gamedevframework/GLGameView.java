@@ -12,7 +12,7 @@ import android.util.*;
 import com.goldsprite.appdevframework.log.Log;
 import com.goldsprite.appdevframework.log.*;
 
-public abstract class GLGameView extends GLSurfaceView
+public class GLGameView extends GLSurfaceView
 {
 	public enum TAG {
 		LifeCycle
@@ -28,8 +28,8 @@ public abstract class GLGameView extends GLSurfaceView
 	private GLRenderer renderer;
 	public GLRenderer Renderer() { return renderer; }
 
-	public abstract void create();
-	public abstract void render();
+	public void create(){}
+	public void render(){}
 
 
 	public GLGameView(Context ctx, CFG cfg) {
