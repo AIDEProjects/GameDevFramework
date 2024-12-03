@@ -1,12 +1,13 @@
 [![](https://jitpack.io/v/AIDEProjects/GameDevFramework.svg)](https://jitpack.io/#AIDEProjects/GameDevFramework)
 
-# GameDevFramework 0.1.5
+# GameDevFramework 0.1.5-alpha
 简易AndroidGame开发库框架，使用opengles2.0
 
 # 待办: 
 1. 更新手势处理相关
 
 # 更新
+
 ## 0.1.5: 转换视口到像素坐标系并同步Shape绘制相关
 1. 统一GLGameView的坐标系：使用左下到右上坐标系，大小为0~width,0~height
 - - 调整Shape顶点组坐标范围回-0.5~0.5
