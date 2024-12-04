@@ -29,7 +29,7 @@ public class OrthoCamera
 	public OrthoCamera() {}
 	public OrthoCamera(float width, float height) {
 		setViewportSize(width, height); 
-		Log.logfT(GLGameView.TAG.LifeCycle, "OrthoCamera相机视口已初始化, viewportSize: %s", getViewportSize());
+		Log.logT(GLGameView.TAG.LifeCycle, "OrthoCamera相机视口已初始化, viewportSize: %s", getViewportSize());
 	}
 
 
@@ -46,13 +46,12 @@ public class OrthoCamera
 	}
 
 
-	public void translate(float dx, float dy) {
-		float scl = Math.max(1, scale);
-		translate.add(dx / scl, dy / scl);
+	public void translation(float x, float y) {
+		translate.set(x, y);
 	}
 
-	public void scale(float factor) {
-		scale *= factor;
+	public void setScale(float setScale) {
+		scale = setScale;
 	}
 
 }

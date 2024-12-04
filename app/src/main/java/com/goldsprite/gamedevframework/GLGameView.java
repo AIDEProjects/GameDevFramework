@@ -11,25 +11,36 @@ import javax.microedition.khronos.egl.EGLConfig;
 import android.util.*;
 import com.goldsprite.appdevframework.log.Log;
 import com.goldsprite.appdevframework.log.*;
+import com.goldsprite.appdevframework.apputils.GestureHandler;
 
-public class GLGameView extends GLSurfaceView
-{
+public class GLGameView extends GLSurfaceView {
+
 	public enum TAG {
 		LifeCycle
+		}
+	static {
+		Log.showTags.put(GLGameView.TAG.LifeCycle, Log.LogMode.encodeMode(true, true));
 	}
-	
+
 	public static class CFG {
 		public boolean enableViewportGesture = false;
 	}
 	private CFG cfg;
-	
+	public CFG Cfg() { return cfg; }
+
 	private GestureHandler gestureHandler;
+	public GestureHandler GestureHandler() { return gestureHandler; }
+
+	private GestureHandler.GestureListener listener;
+	public GestureHandler.GestureListener GestureListener() { return listener; }
+
+	private Vector2Int stageSize = new Vector2Int(), viewportSize = new Vector2Int();
 
 	private GLRenderer renderer;
 	public GLRenderer Renderer() { return renderer; }
 
-	public void create(){}
-	public void render(){}
+	public void create() {}
+	public void render() {}
 
 
 	public GLGameView(Context ctx, CFG cfg) {
@@ -40,11 +51,11 @@ public class GLGameView extends GLSurfaceView
 	private void init(Context ctx, CFG cfg) {
 		setEGLContextClientVersion(2);
 
-		if(cfg == null){
+		if (cfg == null) {
 			cfg = new CFG();
 		}
 		this.cfg = cfg;
-		
+
 		// 初始化渲染器
 		renderer = new GLRenderer();
 		setRenderer(renderer);
@@ -56,33 +67,40 @@ public class GLGameView extends GLSurfaceView
 			}
 		};
 		post(initRun);
-		
 
-		// 初始化手势管理
-		GestureHandler.GestureListener listener = new GestureHandler.GestureListener() {
-			@Override
-			public void onDoublePointerMove(float dx, float dy) {
-				renderer.Camera().translate(dx, dy);
+		listener = new GestureHandler.GestureListener(){
+			public boolean hasView() {
+				return true;
+			}
+			public Vector2Int getStageSize() {
+				View child0 = GLGameView.this;
+				stageSize.set(child0.getWidth(), child0.getHeight());
+				return stageSize;
+			}
+			public Vector2Int getViewportSize() {
+				viewportSize.set(getWidth(), getHeight());
+				return viewportSize;
 			}
 
-			@Override
-			public void onScale(float scale) {
-				renderer.Camera().scale(scale);
+			public void onDoublePointerMove(float x, float y) {
+				renderer.Camera().translation(x, y);
+			}
+			public void onScale(float setScale) {
+				renderer.Camera().setScale(setScale);
 			}
 		};
-		gestureHandler = new GestureHandler(listener);
+		final GestureHandler.CFG gestureCfg = new GestureHandler.CFG();
+		gestureCfg.allSet(cfg.enableViewportGesture);
+		gestureHandler = new GestureHandler(listener, gestureCfg);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(cfg.enableViewportGesture) 
-			return gestureHandler.handleTouchEvent(event, getWidth(), getHeight());
-		return false;
+		return gestureHandler.handleTouchEvent(event);
 	}
 
 
-	public class GLRenderer implements GLSurfaceView.Renderer
-	{
+	public class GLRenderer implements GLSurfaceView.Renderer {
 		private boolean initialized;
 
 		private OrthoCamera camera;
@@ -109,7 +127,7 @@ public class GLGameView extends GLSurfaceView
 			GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
 			if (!initialized) return;
-			
+
 			//Log.logT(TAG.LifeCycle, "onDrawFrame帧绘制循环");
 
 			// 摄像机位移与缩放实现
@@ -122,10 +140,10 @@ public class GLGameView extends GLSurfaceView
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
 			GLES20.glViewport(0, 0, width, height);
 
-			Log.logfT(TAG.LifeCycle, "onSurfaceChanged布局视口更新: vpWidth: %s, vpHeight: %s", width, height);
-			
+			Log.logT(TAG.LifeCycle, "onSurfaceChanged布局视口更新: vpWidth: %s, vpHeight: %s", width, height);
+
 			if (!initialized) return;
-			
+
 			camera.updateViewport(width, height);
 		}
 

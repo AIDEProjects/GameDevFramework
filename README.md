@@ -1,6 +1,6 @@
 [![](https://jitpack.io/v/AIDEProjects/GameDevFramework.svg)](https://jitpack.io/#AIDEProjects/GameDevFramework)
 
-# GameDevFramework 0.1.5-alpha
+# GameDevFramework 0.1.6
 简易AndroidGame开发库框架，使用opengles2.0
 
 # 内容: 
@@ -23,6 +23,10 @@
 1. 更新手势处理相关
 
 # 更新
+## 0.1.6: 增加生命周期log启用以及同步新版appdevf_0.6.6手势处理器代码
+1. GLGameView 增加静态块来设置TAG.LifeCycle相关log启用
+	- 删除旧gestureHandler，使用appdevf0.6.6的新版
+	- - 更新gestureHandler相关代码以适应新版接口
 
 ## 0.1.5: 转换视口到像素坐标系并同步Shape绘制相关
 1. 统一GLGameView的坐标系：使用左下到右上坐标系，大小为0~width,0~height
