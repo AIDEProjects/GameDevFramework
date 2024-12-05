@@ -1,0 +1,60 @@
+diff --git a/app/src/main/java/com/goldsprite/gamedevframework/GLGameView.java b/app/src/main/java/com/goldsprite/gamedevframework/GLGameView.java
+index 60de8ce..582bb94 100644
+--- a/app/src/main/java/com/goldsprite/gamedevframework/GLGameView.java
++++ b/app/src/main/java/com/goldsprite/gamedevframework/GLGameView.java
+@@ -34,7 +34,10 @@ public class GLGameView extends GLSurfaceView {
+ 	private GestureHandler.GestureListener listener;
+ 	public GestureHandler.GestureListener GestureListener() { return listener; }
+ 
+-	private Vector2Int stageSize = new Vector2Int(), viewportSize = new Vector2Int();
++	private Vector2Int 
++	stageSize = new Vector2Int(), 
++	viewportSize = new Vector2Int(), 
++	coordSign = new Vector2Int();
+ 
+ 	private GLRenderer renderer;
+ 	public GLRenderer Renderer() { return renderer; }
+@@ -81,7 +84,11 @@ public class GLGameView extends GLSurfaceView {
+ 				viewportSize.set(getWidth(), getHeight());
+ 				return viewportSize;
+ 			}
+-
++			public Vector2Int coordinatesSigned(){
++				coordSign.set(1, 1);
++				return coordSign;
++			}
++			
+ 			public void onDoublePointerMove(float x, float y) {
+ 				renderer.Camera().translation(x, y);
+ 			}
+diff --git a/app/src/main/java/com/goldsprite/gamedevframework/OrthoCamera.java b/app/src/main/java/com/goldsprite/gamedevframework/OrthoCamera.java
+index a9ce54b..0179d16 100644
+--- a/app/src/main/java/com/goldsprite/gamedevframework/OrthoCamera.java
++++ b/app/src/main/java/com/goldsprite/gamedevframework/OrthoCamera.java
+@@ -14,17 +14,11 @@ public class OrthoCamera
+ 
+ 	private float scale = 1.0f;
+ 	private Vector2 translate = new Vector2().set(0f);
+-	private Vector2 sclTranslateOffset = new Vector2();
+ 
+ 	private Vector2 viewportSize = new Vector2();
+ 	public Vector2 setViewportSize(float width, float height) { return viewportSize.set(width, height); }
+ 	public Vector2 getViewportSize() { return viewportSize; }
+ 
+-	public Vector2 SclTranslate() {
+-		sclTranslateOffset.set(translate.clone().scl(scale * 2.5f));
+-		return sclTranslateOffset;
+-	}
+-
+ 
+ 	public OrthoCamera() {}
+ 	public OrthoCamera(float width, float height) {
+@@ -35,7 +29,7 @@ public class OrthoCamera
+ 
+ 	public void updateMatrix() {
+ 		Matrix.setIdentityM(viewMatrix, 0);
+-		Matrix.translateM(viewMatrix, 0, translate.x + SclTranslate().x, translate.y + SclTranslate().y, 0);
++		Matrix.translateM(viewMatrix, 0, translate.x, translate.y, 0);
+ 		Matrix.scaleM(viewMatrix, 0, scale, scale, 1);
+ 		Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
+ 	}

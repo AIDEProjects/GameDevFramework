@@ -14,16 +14,10 @@ public class OrthoCamera
 
 	private float scale = 1.0f;
 	private Vector2 translate = new Vector2().set(0f);
-	private Vector2 sclTranslateOffset = new Vector2();
 
 	private Vector2 viewportSize = new Vector2();
 	public Vector2 setViewportSize(float width, float height) { return viewportSize.set(width, height); }
 	public Vector2 getViewportSize() { return viewportSize; }
-
-	public Vector2 SclTranslate() {
-		sclTranslateOffset.set(translate.clone().scl(scale * 2.5f));
-		return sclTranslateOffset;
-	}
 
 
 	public OrthoCamera() {}
@@ -35,7 +29,7 @@ public class OrthoCamera
 
 	public void updateMatrix() {
 		Matrix.setIdentityM(viewMatrix, 0);
-		Matrix.translateM(viewMatrix, 0, translate.x + SclTranslate().x, translate.y + SclTranslate().y, 0);
+		Matrix.translateM(viewMatrix, 0, translate.x, translate.y, 0);
 		Matrix.scaleM(viewMatrix, 0, scale, scale, 1);
 		Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 	}

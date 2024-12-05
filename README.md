@@ -1,6 +1,6 @@
 [![](https://jitpack.io/v/AIDEProjects/GameDevFramework.svg)](https://jitpack.io/#AIDEProjects/GameDevFramework)
 
-# GameDevFramework 0.1.6
+# GameDevFramework 0.1.7-alpha
 简易AndroidGame开发库框架，使用opengles2.0
 
 # 内容: 
@@ -20,9 +20,17 @@
 	- scale()相机拉伸
 
 # 待办: 
-1. 更新手势处理相关
 
 # 更新
+## 0.1.7-alpha: 代码优化与调整
+- **GLGameView.java**：
+	- 新增 `coordSign` 变量，表示坐标系统符号。
+	- 增加 `coordinatesSigned()` 方法，用于返回坐标符号。
+	- 对 `stageSize` 和 `viewportSize` 变量初始化进行了调整，优化代码结构。
+- **OrthoCamera.java**：
+	- 移除了 `SclTranslate()` 方法，简化视图矩阵的更新逻辑。
+	- 修改 `updateMatrix()` 方法，移除缩放偏移量的应用，确保矩阵变换更加直接。
+
 ## 0.1.6: 增加生命周期log启用以及同步新版appdevf_0.6.6手势处理器代码
 1. GLGameView 增加静态块来设置TAG.LifeCycle相关log启用
 	- 删除旧gestureHandler，使用appdevf0.6.6的新版

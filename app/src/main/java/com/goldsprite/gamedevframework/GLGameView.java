@@ -34,7 +34,10 @@ public class GLGameView extends GLSurfaceView {
 	private GestureHandler.GestureListener listener;
 	public GestureHandler.GestureListener GestureListener() { return listener; }
 
-	private Vector2Int stageSize = new Vector2Int(), viewportSize = new Vector2Int();
+	private Vector2Int 
+	stageSize = new Vector2Int(), 
+	viewportSize = new Vector2Int(), 
+	coordSign = new Vector2Int();
 
 	private GLRenderer renderer;
 	public GLRenderer Renderer() { return renderer; }
@@ -81,7 +84,11 @@ public class GLGameView extends GLSurfaceView {
 				viewportSize.set(getWidth(), getHeight());
 				return viewportSize;
 			}
-
+			public Vector2Int coordinatesSigned(){
+				coordSign.set(1, 1);
+				return coordSign;
+			}
+			
 			public void onDoublePointerMove(float x, float y) {
 				renderer.Camera().translation(x, y);
 			}
