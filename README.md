@@ -16,8 +16,8 @@
 1. OrthoCamera: 相机类，操作视图矩阵
 	- VpMatrix()获取当前视图投影矩阵
 	- getViewportSize()获取视图宽高
-	- translate()相机位移
-	- scale()相机拉伸
+	- translation()相机位移
+	- setScale()相机拉伸
 
 # 待办: 
 
