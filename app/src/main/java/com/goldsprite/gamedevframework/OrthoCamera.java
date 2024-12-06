@@ -2,6 +2,7 @@ package com.goldsprite.gamedevframework;
 import android.opengl.*;
 import com.goldsprite.appdevframework.math.*;
 import com.goldsprite.appdevframework.log.*;
+import com.goldsprite.gamedevframework.app.*;
 
 public class OrthoCamera
 {

@@ -7,7 +7,7 @@ public class Line {
 	private final int program;
 
 	public Line() {
-		program = ShaderUtils.createProgram();
+		program = ShaderUtils.createProgram(ShaderUtils.ShaderMode.Color);
 	}
 
 	public void draw(float[] vpMatrix, float x1, float y1, float x2, float y2, float lineWidth, float[] color) {

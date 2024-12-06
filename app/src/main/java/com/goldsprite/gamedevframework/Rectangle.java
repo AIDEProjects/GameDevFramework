@@ -5,7 +5,7 @@ import java.nio.*;
 
 public class Rectangle
 {
-	private int mProgram; // 存储程序ID
+	private int program; // 存储程序ID
 	// 创建顶点坐标
 	private float[] vertices = {
 		-0.5f, -0.5f,  // 左下角
@@ -17,15 +17,15 @@ public class Rectangle
 	public Rectangle() {
 		//vertices转-1~+1
 		//for (int i=0;i < vertices.length;i++) vertices[i] *= 2;
-		mProgram = ShaderUtils.createProgram();
+		program = ShaderUtils.createProgram(ShaderUtils.ShaderMode.Color);
 	}
 
 	public void draw(float[] vpMatrix, float cx, float cy, float width, float height, float[] color) {
-		GLES20.glUseProgram(mProgram); // 使用目标程序
+		GLES20.glUseProgram(program); // 使用目标程序
 
-		int positionHandle = GLES20.glGetAttribLocation(mProgram, "a_Position");
-		int matrixHandle = GLES20.glGetUniformLocation(mProgram, "u_Matrix");
-		int colorHandle = GLES20.glGetUniformLocation(mProgram, "u_Color");
+		int positionHandle = GLES20.glGetAttribLocation(program, "a_Position");
+		int matrixHandle = GLES20.glGetUniformLocation(program, "u_Matrix");
+		int colorHandle = GLES20.glGetUniformLocation(program, "u_Color");
 
 		GLES20.glVertexAttribPointer(positionHandle, 2, GLES20.GL_FLOAT, false, 0, BufferUtils.create(vertices));
 		GLES20.glEnableVertexAttribArray(positionHandle);

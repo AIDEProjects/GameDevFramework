@@ -34,7 +34,7 @@ public class Circle
 		// 初始化顶点缓冲区
 		vertexBuffer = BufferUtils.create(lowPolyCoords);
 
-		program = ShaderUtils.createProgram();
+		program = ShaderUtils.createProgram(ShaderUtils.ShaderMode.Color);
 	}
 
 	public void draw(float[] vpMatrix, float cx, float cy, float radius, float[] color) {

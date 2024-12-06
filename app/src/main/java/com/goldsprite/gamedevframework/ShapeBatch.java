@@ -4,6 +4,7 @@ import android.opengl.*;
 import java.nio.*;
 import com.goldsprite.appdevframework.math.*;
 import com.goldsprite.appdevframework.log.*;
+import com.goldsprite.gamedevframework.app.*;
 
 public class ShapeBatch
 {

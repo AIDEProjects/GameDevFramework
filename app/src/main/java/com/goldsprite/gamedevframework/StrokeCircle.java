@@ -19,7 +19,7 @@ public class StrokeCircle
 		}
 		vertexCount = vertices.length / 3;
 
-		program = ShaderUtils.createProgram();
+		program = ShaderUtils.createProgram(ShaderUtils.ShaderMode.Color);
 	}
 
 	public void draw(float[] vpMatrix, float cx, float cy, float radius, float lineWidth, float[] color) {

@@ -20,8 +20,13 @@
 	- setScale()相机拉伸
 
 # 待办: 
+- 设计材质绘制
 
 # 更新
+## 0.2.0-alpha: 
+1. 增加GLGameView子类MainGameView作为基本实现类: 
+	- 自带shapeBatch, camera, vCenter, vSize属性
+
 ## 0.1.7-alpha: 代码优化与调整
 - **GLGameView.java**：
 	- 新增 `coordSign` 变量，表示坐标系统符号。

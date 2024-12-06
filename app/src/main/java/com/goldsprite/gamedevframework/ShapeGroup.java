@@ -9,6 +9,11 @@ public class ShapeGroup {
 	private float scale;
 	public float circleSize = 1f * 20;
 
+	private static StrokeCircle circle = new StrokeCircle();
+	private static StrokeRectangle rectangle = new StrokeRectangle();
+	private static Line line = new Line();
+	
+
 	// 构造函数
 	public ShapeGroup(float centerX, float centerY, float width, float height, float circleSize, float scale) {
 		this.centerX = centerX;
@@ -41,7 +46,7 @@ public class ShapeGroup {
 		// 绘制矩形
 		rectangle.draw(vpMatrix, centerX, centerY, scale * width, scale * height, lineWidth, rectColor);
 	}*/
-	public void draw(float[] vpMatrix, StrokeCircle circle, StrokeRectangle rectangle, float lineWidth, 
+	public void draw(float[] vpMatrix, float lineWidth, 
 					 float[] circleColor, float[] rectColor, boolean circleFixedSize) {
 		// 绘制矩形，应用缩放
 		float rectScale = scale;
@@ -54,7 +59,7 @@ public class ShapeGroup {
 	
 
 	// 静态方法：连接两组图形中心的线段
-	public static void connectCenters(float[] vpMatrix, Line line, ShapeGroup group1, ShapeGroup group2, float lineWidth, float[] color) {
+	public static void connectCenters(float[] vpMatrix, ShapeGroup group1, ShapeGroup group2, float lineWidth, float[] color) {
 		line.draw(vpMatrix, group1.centerX, group1.centerY, group2.centerX, group2.centerY, lineWidth, color);
 	}
 	
