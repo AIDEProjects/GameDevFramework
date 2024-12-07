@@ -3,9 +3,18 @@ import android.opengl.*;
 import com.goldsprite.appdevframework.math.*;
 import com.goldsprite.appdevframework.log.*;
 import com.goldsprite.gamedevframework.app.*;
+import com.goldsprite.appdevframework.utils.*;
+import com.goldsprite.appdevframework.math.Axis.*;
 
-public class OrthoCamera
-{
+public class OrthoCamera {
+
+	private final Align axis = Align.LeftDown;//默认全局坐标系为左下原点，不可更改
+	public Align Axis() { return axis; }
+	public Vector2 getAxisAlignVector(Align align) { return Axis.getAxisAlignVector(axis, align); }
+	public Vector2 getAxisBound() { return Axis.getAxisBound(axis); }
+	public float[] getAlignCoord(Align align, float x, float y, float width, float height) {
+		return Axis.getAlignCoord(axis, align, x, y, width, height);
+	}
 
 	private final float[] projectionMatrix = new float[16];
 	private final float[] viewMatrix = new float[16];
@@ -37,7 +46,29 @@ public class OrthoCamera
 
 	public void updateViewport(int width, int height) {
 		setViewportSize(width, width);
-		Matrix.orthoM(projectionMatrix, 0, 0, width, 0, height, -1, 1);
+		Vector2 axisBound = getAxisBound();
+		float newXMin = width * axisBound.x;
+		float newXMax = width * axisBound.y;
+		float newYMin = height * axisBound.x;
+		float newYMax = height * axisBound.y;
+		Matrix.orthoM(
+			projectionMatrix, 0,  
+			newXMin, newXMax, 
+			newYMin, newYMax, 
+			- 1, 1);
+		Log.logT(
+			TAG.AxisAlignConvert, ""
+			+ "更新视口宽高: "
+			+ "\n\t" + "当前坐标系: " + StringUtils.getEnumFullName(axis)
+			+ "\n\t" + "当前坐标系边界向量: " + axisBound
+			+ "\n\t" + "新视口: " + String.format(
+				"{xMin: %s, xMax: %s, yMin: %s, yMax: %s}", 
+				MathUtils.preciNum(newXMin), 
+				MathUtils.preciNum(newXMax), 
+				MathUtils.preciNum(newYMin), 
+				MathUtils.preciNum(newYMax)
+			)
+		);
 	}
 
 

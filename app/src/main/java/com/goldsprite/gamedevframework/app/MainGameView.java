@@ -10,7 +10,7 @@ public class MainGameView implements GLGameView.IGameCycleListener {
 	protected GLGameView core;
 	protected GLGameView.GLRenderer renderer;
 
-	protected ShapeBatch batch;
+	protected ShapeBatch shapeBatch;
 	protected OrthoCamera camera;
 	protected float lineWidth = 800;
 	protected Vector2 vCenter, vSize;
@@ -32,7 +32,7 @@ public class MainGameView implements GLGameView.IGameCycleListener {
 		renderer = core.Renderer();
 		camera = renderer.Camera();
 
-		batch = new ShapeBatch(core);
+		shapeBatch = new ShapeBatch(core);
 
 		vSize = camera.getViewportSize();
 		vCenter = vSize.clone().div(2);
@@ -40,9 +40,14 @@ public class MainGameView implements GLGameView.IGameCycleListener {
 		create0();
 	}
 	public final void render() {
-		batch.setColor(Color.deepBlue);
-		batch.drawStrokeRect(vCenter.x, vCenter.y, vSize.x, vSize.y, lineWidth, Align.CENTER);
-
+		shapeBatch.begin();
+		shapeBatch.setColor(Color.deepBlue);
+		shapeBatch.setLineWidth(lineWidth);
+		shapeBatch.drawStrokeRect(
+			vCenter.x, vCenter.y, 
+			vSize.x, vSize.y, 
+			Axis.Align.Center);
+		shapeBatch.end();
 		render0();
 	}
 	public final void viewportChanged(float width, float height) {
