@@ -23,13 +23,13 @@ public class ShapeBatch {
 	private Rectangle rectangle;
 	private Circle circle;
 	private StrokeCircle strokeCircle;
+	private Line line;
 
 	public final ShaderUtils.ShaderMode programMode = ShaderUtils.ShaderMode.Color;
 	private float[] currentColor = Color.black.clone(); // 默认颜色为黑色
 	private float[] alignCoord;
 	private final int coordDimen = 2;
 	private float lineWidth = 200;
-	private boolean dottedLine = false;
 
 	//着色器相关
 	private int program;
@@ -48,6 +48,7 @@ public class ShapeBatch {
 		rectangle = new Rectangle();
 		circle = new Circle();
 		strokeCircle = new StrokeCircle();
+		line = new Line();
 
 		//配置着色器
 		program = ShaderUtils.getProgram(ShaderUtils.ShaderMode.Color);
@@ -78,10 +79,6 @@ public class ShapeBatch {
 		this.lineWidth = lineWidth;
 	}
 
-	public void setDottedLine(boolean boo) {
-		this.dottedLine = boo;
-	}
-
 	public void drawStrokeRect(float x, float y, float width, float height, Align align) {
 		drawShape(strokeRectangle, x, y, width, height, align);
 	}
@@ -97,6 +94,17 @@ public class ShapeBatch {
 	public void drawStrokeCircle(float x, float y, float radius, Align align) {
 		drawShape(strokeCircle, x, y, radius, radius, align);
 	}
+
+	public void drawDottedLineCircle(float x, float y, float radius, Align align) {
+		strokeCircle.dottedLine = true;
+		drawShape(strokeCircle, x, y, radius, radius, align);
+		strokeCircle.dottedLine = false;
+	}
+	
+	public void drawLine(float x1, float y1, float x2, float y2) {
+        line.setLine(x1, y1, x2, y2); // 设置线段的两个端点
+        drawShape(line, 0, 0, 1, 1, Axis.Align.LeftDown); // 使用默认参数绘制
+    }
 
 	private void drawShape(Shape shape, float x, float y, float width, float height, Axis.Align align) {//转换锚点坐标
 		//转换到锚点坐标
@@ -187,7 +195,7 @@ public class ShapeBatch {
 
 	public class Circle extends Shape {
 		// 多边形扇形边界：将圆拆分为多个固定的线段
-		private final int SEGMENT_STEP = 1; // 单段角度，越小越精密
+		private final int SEGMENT_STEP = 3; // 单段角度，越小越精密
 		public Axis.Align getVerticesAxis() { return Axis.Align.Center; }
 		public float[] initVertices() {
 			// 计算低多边形顶点坐标
@@ -208,10 +216,42 @@ public class ShapeBatch {
 	}
 
 	public class StrokeCircle extends Circle {
+		private boolean dottedLine = false;
 		public void draw() {
 			GLES20.glLineWidth(lineWidth);
 			int drawType = dottedLine ?GLES20.GL_LINES : GLES20.GL_LINE_LOOP;
 			GLES20.glDrawArrays(drawType, 0, VertexCount());
+		}
+	}
+	
+	public class Line extends Shape {
+		private float[] lineVertices = new float[4]; // 只需要存储两点的 x, y
+
+		public Line() {
+			// 初始化顶点缓冲
+			vertices = lineVertices;
+			vertexBuffer = BufferUtils.create(vertices);
+		}
+
+		@Override
+		public float[] initVertices() {
+			// 默认线段起点 (0, 0)，终点 (1, 1)
+			return new float[] {0, 0, 1, 1};
+		}
+
+		@Override
+		public void draw() {
+			GLES20.glLineWidth(lineWidth); // 使用批次中的线宽
+			GLES20.glDrawArrays(GLES20.GL_LINES, 0, VertexCount());
+		}
+
+		public void setLine(float x1, float y1, float x2, float y2) {
+			// 更新线段顶点
+			lineVertices[0] = x1;
+			lineVertices[1] = y1;
+			lineVertices[2] = x2;
+			lineVertices[3] = y2;
+			vertexBuffer.put(lineVertices).position(0); // 更新顶点缓冲
 		}
 	}
 
