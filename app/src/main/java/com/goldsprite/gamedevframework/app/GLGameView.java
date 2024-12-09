@@ -121,8 +121,7 @@ public class GLGameView extends GLSurfaceView {
 	public boolean onTouchEvent(MotionEvent event) {
 		return gestureHandler.handleTouchEvent(event);
 	}
-
-
+	
 	public class GLRenderer implements GLSurfaceView.Renderer {
 		private boolean initialized;
 

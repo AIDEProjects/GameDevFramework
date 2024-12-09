@@ -8,6 +8,7 @@ import com.goldsprite.appdevframework.log.Debug;
 
 public class MainGameView implements GLGameView.IGameCycleListener {
 	protected GLGameView core;
+	public GLGameView Core(){ return core; }
 	protected GLGameView.GLRenderer renderer;
 
 	protected ShapeBatch shapeBatch;

@@ -62,7 +62,7 @@ public class ShaderUtils {
      * @param mode 渲染模式，可以是 "color" 或 "texture"
      * @return 编译并链接后的着色器程序
      */
-    private static int createProgram(ShaderMode mode) {
+    public static int createProgram(ShaderMode mode) {
         int vertexShader;
         int fragmentShader;
 
